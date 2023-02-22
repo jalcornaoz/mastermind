@@ -5,7 +5,6 @@ spl_autoload_register($cargar_clase);
 session_start();
 
 $clave = new Clave();
-$clave->obtenerClave();
 
 $intentos = $_SESSION["intentos"];
 //$clave = $_SESSION["clave"];
@@ -14,8 +13,8 @@ if ($resultado)
     $msj = "Has acertado en $intentos intentos.<br>";
 else
     $msj = "No has acertado la convinación: " . $clave->getClave() . "<br>";
-$combinacion = [];
-$jugada = new Jugada($combinacion);
+//$combinacion = [];
+$jugada = new Jugada();
 $msj .= "Tus Jugadas:<br>";
 $msj .= $jugada->getJugada();
 

@@ -4,10 +4,16 @@ class Jugada
 {
     private $jugadas = [];
     private int $noPosiciones = 0;
-    private $posiciones = [];
+    private int $posiciones = 0;
+    private $acertados=[];
     private int $intentos = 0;
 
-    public function __construct($combinacion)
+    public function __construct(){
+        if (isset($_SESSION["jugada"]))
+            $this->jugadas=$_SESSION["jugada"];
+    }
+
+    public function setJugada($combinacion)
     {
         if (isset($_SESSION["jugada"])) {
             $this->intentos = $_SESSION["intentos"];
@@ -40,36 +46,27 @@ class Jugada
     public function getPosiciones($combinacion)
     {
         $clave = $_SESSION["clave"];
-        $this->posiciones = [0, 0, 0, 0];
+        $this->acertados = [];
+        $this->posiciones=0;
         for ($i = 0; $i < 4; $i++) {
             if ($combinacion[$i] == $clave[$i]) {
-                $this->posiciones[$i] = 1;
+                $this->posiciones++;
+                $this->acertados[] = $clave[$i];
             }
         }
-        $aciertos = 0;
-        foreach ($this->posiciones as $posicion)
-            $aciertos += $posicion;
-        return $aciertos;
+        return $this->posiciones;
     }
     private function getNoPosiciones($combinacion)
     {
         $clave = $_SESSION["clave"];
         $this->noPosiciones = 0;
-        if ($clave[0] != $combinacion[0]) {
-            if ($combinacion[0] == $clave[1] || $combinacion[0] == $clave[2] || $combinacion[3] == $clave[3])
-                $this->noPosiciones++;
-        }
-        if ($clave[1] != $combinacion[1]) {
-            if ($combinacion[1] == $clave[0] || $combinacion[1] == $clave[2] || $combinacion[1] == $clave[3])
-                $this->noPosiciones++;
-        }
-        if ($clave[2] != $combinacion[2]) {
-            if ($combinacion[2] == $clave[0] || $combinacion[2] == $clave[1] || $combinacion[2] == $clave[3])
-                $this->noPosiciones++;
-        }
-        if ($clave[3] != $combinacion[3]) {
-            if ($combinacion[3] == $clave[0] || $combinacion[3] == $clave[1] || $combinacion[3] == $clave[2])
-                $this->noPosiciones++;
+        for($i=0;$i<4;$i++){
+            if($clave[$i]!=$combinacion[$i] && !in_array($combinacion[$i],$this->acertados)){
+                if (in_array($combinacion[$i],$clave)){
+                    $this->noPosiciones++;
+                    $this->acertados[]=$combinacion[$i];
+                }
+            }
         }
         return $this->noPosiciones;
     }

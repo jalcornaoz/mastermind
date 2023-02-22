@@ -3,12 +3,13 @@ $cargar_clase = fn ($clase) => require_once "./class/$clase.php";
 spl_autoload_register($cargar_clase);
 session_start();
 
+$clave = new Clave();
+
 $msj = "Sin datos que mostrar.";
 $mostrar = "1";
 $boton_mostrar = "Mostrar Clave";
 
 $clave = new Clave();
-$clave->obtenerClave();
 
 
 if (isset($_POST["mostrar"])) {
@@ -20,6 +21,11 @@ if (isset($_POST["mostrar"])) {
 	} else {
 		$mostrar = "1";
 		$boton_mostrar = "Mostrar Clave";
+		if (isset($jugada)){
+			$msj = "Intento número $intentos<br>";
+			$msj .= "Tus Jugadas:<br>";
+			$msj .= $jugada->getJugada();
+		} else
 		$msj = "Sin datos que mostrar.";
 	}
 }
@@ -27,11 +33,12 @@ if (isset($_POST["resetear"])) {
 	$msj = "Nueva clave generada.";
 	session_destroy();
 	session_start();
-	$clave->obtenerClave();
+	$clave=new Clave;
 }
 if (isset($_POST["jugar"])) {
 	$combinacion = $_POST["combinacion"];
-	$jugada = new Jugada($combinacion);
+	$jugada= new Jugada();
+	$jugada->setJugada($combinacion);
 	$intentos = $jugada->getIntentos();
 	$posiciones = $jugada->getPosiciones($combinacion);
 	if ($posiciones < 4) {
@@ -48,8 +55,6 @@ if (isset($_POST["jugar"])) {
 		exit();
 	}
 }
-
-
 
 ?>
 

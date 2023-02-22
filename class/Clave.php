@@ -4,7 +4,7 @@ class Clave
     public const COLORES = ["amarillo", "azul", "marron", "naranja", "rojo", "rosa", "verde", "violeta"];
     private $clave = [];
 
-    public function obtenerClave()
+    public function __construct()
     {
         if (isset($_SESSION["clave"]))
             $this->clave = $_SESSION["clave"];
@@ -14,6 +14,7 @@ class Clave
         }
         return $this->clave;
     }
+
     private function generaClave()
     {
         $n1 = rand(0, 7);
@@ -30,6 +31,7 @@ class Clave
         $this->clave = ["$colores[$n1]", "$colores[$n2]", "$colores[$n3]", "$colores[$n4]"];
         return $this->clave;
     }
+    
     public function getClave()
     {
         $clave = "";
