@@ -1,0 +1,38 @@
+main {
+  margin-bottom: 10rem;
+}
+.imagen {
+  height: 80px;
+}
+.amarillo {
+  background-color: yellow;
+}
+.azul {
+  background-color: blue;
+}
+.marron {
+  background-color: brown;
+}
+.naranja {
+  background-color: orange;
+}
+.rojo {
+  background-color: red;
+}
+.rosa {
+  background-color: pink;
+}
+.verde {
+  background-color: green;
+}
+.violeta {
+  background-color: violet;
+}
+.posicion {
+  background-color: black;
+  color: white;
+}
+.noPosicion {
+  background-color: grey;
+  color: white;
+}
