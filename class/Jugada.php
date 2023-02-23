@@ -3,22 +3,21 @@
 class Jugada
 {
     private $jugadas = [];
+    private int $intentos = 0;
     private int $noPosiciones = 0;
     private int $posiciones = 0;
-    private $acertados=[];
-    private int $intentos = 0;
+    private $acertados = [];
 
-    public function __construct(){
-        if (isset($_SESSION["jugada"]))
-            $this->jugadas=$_SESSION["jugada"];
+    public function __construct()
+    {
+        if (isset($_SESSION["jugada"])) {
+            $this->jugadas = $_SESSION["jugada"];
+            $this->intentos = $_SESSION["intentos"];
+        }
     }
 
     public function setJugada($combinacion)
     {
-        if (isset($_SESSION["jugada"])) {
-            $this->intentos = $_SESSION["intentos"];
-            $this->jugadas = $_SESSION["jugada"];
-        }
         $this->jugadas[] = $combinacion;
         $this->intentos++;
         $_SESSION["jugada"] = $this->jugadas;
@@ -31,10 +30,10 @@ class Jugada
         $n = 1;
         foreach ($this->jugadas as $jugada) {
             $msj .= "<tr><td>$n.-</td>";
-            $msj .= "<td><span class=\"posicion\">" . $this->getPosiciones($jugada) . "</span></td>";
-            $msj .= "<td><span class=\"noPosicion\">" . $this->getNoPosiciones($jugada) . "</span></td>";
+            $msj .= "<td><span class=\"posicion\">&nbsp" . $this->getPosiciones($jugada) . "&nbsp</span></td>";
+            $msj .= "<td><span class=\"noPosicion\">&nbsp" . $this->getNoPosiciones($jugada) . "&nbsp</span></td>";
             foreach ($jugada as $color) {
-                $msj .= "<td><span class=\"$color\">$color</span></td>";
+                $msj .= "<td><span class=\"$color\">&nbsp$color&nbsp</span></td>";
             }
             $msj .= "</tr>";
             $n++;
@@ -47,7 +46,7 @@ class Jugada
     {
         $clave = $_SESSION["clave"];
         $this->acertados = [];
-        $this->posiciones=0;
+        $this->posiciones = 0;
         for ($i = 0; $i < 4; $i++) {
             if ($combinacion[$i] == $clave[$i]) {
                 $this->posiciones++;
@@ -56,15 +55,16 @@ class Jugada
         }
         return $this->posiciones;
     }
+
     private function getNoPosiciones($combinacion)
     {
         $clave = $_SESSION["clave"];
         $this->noPosiciones = 0;
-        for($i=0;$i<4;$i++){
-            if($clave[$i]!=$combinacion[$i] && !in_array($combinacion[$i],$this->acertados)){
-                if (in_array($combinacion[$i],$clave)){
+        for ($i = 0; $i < 4; $i++) {
+            if ($clave[$i] != $combinacion[$i] && !in_array($combinacion[$i], $this->acertados)) {
+                if (in_array($combinacion[$i], $clave)) {
                     $this->noPosiciones++;
-                    $this->acertados[]=$combinacion[$i];
+                    $this->acertados[] = $combinacion[$i];
                 }
             }
         }

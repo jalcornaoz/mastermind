@@ -3,41 +3,46 @@ $cargar_clase = fn ($clase) => require_once "./class/$clase.php";
 spl_autoload_register($cargar_clase);
 session_start();
 
-$clave = new Clave();
 
+//inicializar datos
 $msj = "Sin datos que mostrar.";
-$mostrar = "1";
+$mostrar = "mostrar";
 $boton_mostrar = "Mostrar Clave";
 
 $clave = new Clave();
 
-
+//botón [mostrar/ocultar]
 if (isset($_POST["mostrar"])) {
 	$mostrar = $_POST["mostrar"];
-	if ($mostrar == "1") {
-		$mostrar = "0";
+	if ($mostrar == "mostrar") {
+		$mostrar = "ocultar";
 		$boton_mostrar = "Ocultar Clave";
 		$msj = "La clave es: " . $clave->getClave();
 	} else {
-		$mostrar = "1";
+		$mostrar = "mostrar";
 		$boton_mostrar = "Mostrar Clave";
-		if (isset($jugada)){
+		if (isset($_SESSION["jugada"])) {
+			$jugada = new Jugada();
+			$intentos = $jugada->getIntentos();
 			$msj = "Intento número $intentos<br>";
 			$msj .= "Tus Jugadas:<br>";
 			$msj .= $jugada->getJugada();
-		} else
-		$msj = "Sin datos que mostrar.";
+		}
 	}
 }
+
+//botón [generar nueva clave]
 if (isset($_POST["resetear"])) {
 	$msj = "Nueva clave generada.";
 	session_destroy();
 	session_start();
-	$clave=new Clave;
+	$clave = new Clave;
 }
+
+//botón [hacer jugada]
 if (isset($_POST["jugar"])) {
 	$combinacion = $_POST["combinacion"];
-	$jugada= new Jugada();
+	$jugada = new Jugada();
 	$jugada->setJugada($combinacion);
 	$intentos = $jugada->getIntentos();
 	$posiciones = $jugada->getPosiciones($combinacion);
@@ -81,7 +86,7 @@ if (isset($_POST["jugar"])) {
 	<main>
 		<div class="container">
 			<div class="row">
-				<div class="col-6">
+				<div class="col-md-6">
 					<h2 class="text-center mt-5">Opciones</h2>
 					<div class="card my-3">
 						<div class="card-header bg-info">
@@ -114,7 +119,7 @@ if (isset($_POST["jugar"])) {
 						</div>
 					</div>
 				</div>
-				<div class="col-6">
+				<div class="col-md-6">
 					<h2 class="text-center mt-5">Información</h2>
 					<div class="card my-3">
 						<div class="card-header bg-info">

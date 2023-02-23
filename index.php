@@ -26,12 +26,12 @@
 				<div class="card-body bg-light">
 					<ol>
 						<li>El usuario deberá de adivinar una secuencia de 4 colores diferentes.</li>
-						<li>Los colores se establecerán aleatoriamente entre 10 colores preestablecidos.</li>
+						<li>Los colores se establecerán aleatoriamente entre 8 colores preestablecidos.</li>
 						<li>Habrá 15 intentos para adivinar la clave.</li>
 						<li>En cada jugada la app informará:
 							<ul>
-								<li>cuántos colores has acertado de la combinación.</li>
-								<li>cuántos de ellos están en la posición correcta.</li>
+								<li>cuántos colores has acertado en la posición correcta: <span class="posicion">&nbsp?&nbsp</span></li>
+								<li>cuántos de ellos están en otra posición: <span class="noPosicion">&nbsp?&nbsp</span></li>
 							</ul>
 						</li>
 						<li>No se especificará cuáles son las posiciones acertadas.</li>
