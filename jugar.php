@@ -134,7 +134,7 @@ if (isset($_POST["jugar"])) {
 		</div>
 	</main>
 	<footer class="fixed-bottom text-center bg-primary text-white pt-2">
-		<p>Certificado Desarrollo de Aplicaciones con tecnologías Web. 2022-23.</p>
+		<p>Desarrollo de Aplicaciones con tecnologías Web. 2022-23.</p>
 		<p>José Alberto Cornao</p>
 	</footer>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
