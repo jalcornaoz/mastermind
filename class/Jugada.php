@@ -2,11 +2,11 @@
 
 class Jugada
 {
-    private $jugadas = [];
+    private array $jugadas = [];
     private int $intentos = 0;
     private int $noPosiciones = 0;
     private int $posiciones = 0;
-    private $acertados = [];
+    private array $acertados = [];
 
     public function __construct()
     {

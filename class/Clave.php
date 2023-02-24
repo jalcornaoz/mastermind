@@ -9,13 +9,12 @@ class Clave
         if (isset($_SESSION["clave"]))
             $this->clave = $_SESSION["clave"];
         else {
-            $this->clave = $this->generaClave();
+            $this->setClave();
             $_SESSION["clave"] = $this->clave;
         }
-        return $this->clave;
     }
 
-    private function generaClave()
+    private function setClave()
     {
         $n1 = rand(0, 7);
         do {
@@ -29,10 +28,9 @@ class Clave
         } while ($n4 == $n3 || $n4 == $n2 || $n4 == $n1);
         $colores = $this::COLORES;
         $this->clave = ["$colores[$n1]", "$colores[$n2]", "$colores[$n3]", "$colores[$n4]"];
-        return $this->clave;
     }
-    
-    public function getClave()
+
+    public function mostrarClave()
     {
         $clave = "";
         foreach ($this->clave as $color)

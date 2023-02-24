@@ -1,15 +1,64 @@
 <?php
 $cargar_clase = fn ($clase) => require_once "./class/$clase.php";
 spl_autoload_register($cargar_clase);
+
 session_start();
 
 
 //inicializar datos
-$msj = "Sin datos que mostrar.";
-$mostrar = "mostrar";
-$boton_mostrar = "Mostrar Clave";
-
 $clave = new Clave();
+
+$opcion = $_POST["submit"] ?? "";
+switch ($opcion) {
+	case "mostrar":
+		$mostrar = "ocultar";
+		$boton_mostrar = "Ocultar Clave";
+		$msj = "La clave es: " . $clave->mostrarClave();
+		break;
+	case "ocultar":
+		$mostrar = "mostrar";
+		$boton_mostrar = "Mostrar Clave";
+		if (isset($_SESSION["jugada"])) {
+			$jugada = new Jugada();
+			$intentos = $jugada->getIntentos();
+			$msj = "Intento número $intentos<br>";
+			$msj .= "Tus Jugadas:<br>";
+			$msj .= $jugada->getJugada();
+		}
+		break;
+	case "resetear":
+		session_destroy();
+		session_start();
+		$clave = new Clave;
+		$msj = "Nueva clave generada.";
+		break;
+
+	case "jugar":
+		$combinacion = $_POST["combinacion"];
+		$jugada = new Jugada();
+		$jugada->setJugada($combinacion);
+		$intentos = $jugada->getIntentos();
+		$posiciones = $jugada->getPosiciones($combinacion);
+		if ($posiciones < 4) {
+			if ($intentos < 15) {
+				$msj = "Intento número $intentos<br>";
+				$msj .= "Tus Jugadas:<br>";
+				$msj .= $jugada->getJugada();
+			} else {
+				header("location:./finjuego.php?resultado=0");
+				exit();
+			}
+		} else {
+			header("location:./finjuego.php?resultado=1");
+			exit();
+		}
+		break;
+	default:
+		$msj = "Sin datos que mostrar.";
+		$mostrar = "mostrar";
+		$boton_mostrar = "Mostrar Clave";
+}
+/*
 
 //botón [mostrar/ocultar]
 if (isset($_POST["mostrar"])) {
@@ -17,7 +66,7 @@ if (isset($_POST["mostrar"])) {
 	if ($mostrar == "mostrar") {
 		$mostrar = "ocultar";
 		$boton_mostrar = "Ocultar Clave";
-		$msj = "La clave es: " . $clave->getClave();
+		$msj = "La clave es: " . $clave->mostrarClave();
 	} else {
 		$mostrar = "mostrar";
 		$boton_mostrar = "Mostrar Clave";
@@ -33,10 +82,11 @@ if (isset($_POST["mostrar"])) {
 
 //botón [generar nueva clave]
 if (isset($_POST["resetear"])) {
-	$msj = "Nueva clave generada.";
+	
 	session_destroy();
 	session_start();
 	$clave = new Clave;
+	$msj = "Nueva clave generada.";
 }
 
 //botón [hacer jugada]
@@ -60,6 +110,7 @@ if (isset($_POST["jugar"])) {
 		exit();
 	}
 }
+*/
 
 ?>
 
@@ -95,8 +146,8 @@ if (isset($_POST["jugar"])) {
 						<div class="card-body bg-light">
 							<div class="d-flex justify-content-around">
 								<form action="./jugar.php" method="post">
-									<button type="submit" class="btn btn-primary" name="mostrar" value=<?= $mostrar ?>><?= $boton_mostrar ?></button>
-									<button type="submit" class="btn btn-primary" name="resetear">Resetear Clave</button>
+									<button type="submit" class="btn btn-primary" name="submit" value=<?= $mostrar ?>><?= $boton_mostrar ?></button>
+									<button type="submit" class="btn btn-primary" name="submit" value="resetear">Resetear Clave</button>
 								</form>
 							</div>
 						</div>
@@ -112,7 +163,7 @@ if (isset($_POST["jugar"])) {
 									<?= Plantilla::generaSelects() ?>
 								</div>
 								<div class=" text-center">
-									<button type="submit" class="btn btn-primary" name="jugar">Hacer Jugada</button>
+									<button type="submit" class="btn btn-primary" name="submit" value="jugar">Hacer Jugada</button>
 								</div>
 							</form>
 
