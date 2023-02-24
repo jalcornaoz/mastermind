@@ -19,8 +19,7 @@ switch ($opcion) {
 		$mostrar = "mostrar";
 		$boton_mostrar = "Mostrar Clave";
 		if (isset($_SESSION["jugada"])) {
-			$jugada = new Jugada();
-			$intentos = $jugada->getIntentos();
+
 			$msj = "Intento número $intentos<br>";
 			$msj .= "Tus Jugadas:<br>";
 			$msj .= $jugada->getJugada();
@@ -35,15 +34,15 @@ switch ($opcion) {
 
 	case "jugar":
 		$combinacion = $_POST["combinacion"];
-		$jugada = new Jugada();
-		$jugada->setJugada($combinacion);
-		$intentos = $jugada->getIntentos();
+		$jugada = new Jugada($combinacion);
+		$_SESSION["jugada"][] = $jugada;
+		$_SESSION["intentos"] = $_SESSION["intentos"] ?? 0;
 		$posiciones = $jugada->getPosiciones($combinacion);
 		if ($posiciones < 4) {
 			if ($intentos < 15) {
 				$msj = "Intento número $intentos<br>";
 				$msj .= "Tus Jugadas:<br>";
-				$msj .= $jugada->getJugada();
+				//				$msj .= $jugada->getJugada();
 			} else {
 				header("location:./finjuego.php?resultado=0");
 				exit();
@@ -58,59 +57,7 @@ switch ($opcion) {
 		$mostrar = "mostrar";
 		$boton_mostrar = "Mostrar Clave";
 }
-/*
 
-//botón [mostrar/ocultar]
-if (isset($_POST["mostrar"])) {
-	$mostrar = $_POST["mostrar"];
-	if ($mostrar == "mostrar") {
-		$mostrar = "ocultar";
-		$boton_mostrar = "Ocultar Clave";
-		$msj = "La clave es: " . $clave->mostrarClave();
-	} else {
-		$mostrar = "mostrar";
-		$boton_mostrar = "Mostrar Clave";
-		if (isset($_SESSION["jugada"])) {
-			$jugada = new Jugada();
-			$intentos = $jugada->getIntentos();
-			$msj = "Intento número $intentos<br>";
-			$msj .= "Tus Jugadas:<br>";
-			$msj .= $jugada->getJugada();
-		}
-	}
-}
-
-//botón [generar nueva clave]
-if (isset($_POST["resetear"])) {
-	
-	session_destroy();
-	session_start();
-	$clave = new Clave;
-	$msj = "Nueva clave generada.";
-}
-
-//botón [hacer jugada]
-if (isset($_POST["jugar"])) {
-	$combinacion = $_POST["combinacion"];
-	$jugada = new Jugada();
-	$jugada->setJugada($combinacion);
-	$intentos = $jugada->getIntentos();
-	$posiciones = $jugada->getPosiciones($combinacion);
-	if ($posiciones < 4) {
-		if ($intentos < 15) {
-			$msj = "Intento número $intentos<br>";
-			$msj .= "Tus Jugadas:<br>";
-			$msj .= $jugada->getJugada();
-		} else {
-			header("location:./finjuego.php?resultado=0");
-			exit();
-		}
-	} else {
-		header("location:./finjuego.php?resultado=1");
-		exit();
-	}
-}
-*/
 
 ?>
 
