@@ -6,9 +6,9 @@ class Jugada
     private int $posiciones = 0;
     private int $noPosiciones = 0;
 
-    public function __construct($clave)
+    public function __construct($combinacion, $clave)
     {
-        $this->jugada = $clave;
+        $this->jugada = $combinacion;
         $this->comprobarAciertos($clave);
     }
 

@@ -7,17 +7,16 @@ session_start();
 $clave = new Clave();
 
 $intentos = $_SESSION["intentos"];
-//$clave = $_SESSION["clave"];
 $resultado = $_GET["resultado"];
 if ($resultado)
     $msj = "Has acertado en $intentos intentos.<br>";
 else
     $msj = "No has acertado la convinación: " . $clave->getClave() . "<br>";
-//$combinacion = [];
+/*
 $jugada = new Jugada();
 $msj .= "Tus Jugadas:<br>";
 $msj .= $jugada->getJugada();
-
+*/
 session_destroy();
 
 

@@ -2,7 +2,25 @@
 $cargar_clase = fn ($clase) => require_once "./class/$clase.php";
 spl_autoload_register($cargar_clase);
 
+function mostrarJugadas()
+{
+	$n = 1;
+	$msj = "Intento número " . $_SESSION["intentos"] . "<br>";
+	$msj .= "Tus Jugadas:<br>";
+	$msj .= "<table>";
+	foreach ($_SESSION["jugadas"] as $jugada) {
+		$msj .= "<tr><td>$n.-</td>" . $jugada->mostrarJugada() . "</tr>";
+		$n++;
+	}
+	$msj .= "</table>";
+	return $msj;
+}
 session_start();
+
+$_SESSION["intentos"] = 0;
+$msj = "Sin datos que mostrar.";
+$mostrar = "mostrar";
+$boton_mostrar = "Mostrar Clave";
 
 
 //inicializar datos
@@ -18,11 +36,8 @@ switch ($opcion) {
 	case "ocultar":
 		$mostrar = "mostrar";
 		$boton_mostrar = "Mostrar Clave";
-		if (isset($_SESSION["jugada"])) {
-
-			$msj = "Intento número $intentos<br>";
-			$msj .= "Tus Jugadas:<br>";
-			$msj .= $jugada->getJugada();
+		if (isset($_SESSION["jugadas"])) {
+			mostrarJugadas();
 		}
 		break;
 	case "resetear":
@@ -34,15 +49,14 @@ switch ($opcion) {
 
 	case "jugar":
 		$combinacion = $_POST["combinacion"];
-		$jugada = new Jugada($combinacion);
-		$_SESSION["jugada"][] = $jugada;
-		$_SESSION["intentos"] = $_SESSION["intentos"] ?? 0;
-		$posiciones = $jugada->getPosiciones($combinacion);
+		$jugada = new Jugada($combinacion, $clave);
+		$_SESSION["jugadas"][] = $jugada;
+		$_SESSION["intentos"]++;
+		$posiciones = $jugada->getPosiciones();
+		$intentos = $_SESSION["intentos"];
 		if ($posiciones < 4) {
 			if ($intentos < 15) {
-				$msj = "Intento número $intentos<br>";
-				$msj .= "Tus Jugadas:<br>";
-				//				$msj .= $jugada->getJugada();
+				mostrarJugadas();
 			} else {
 				header("location:./finjuego.php?resultado=0");
 				exit();
@@ -52,10 +66,6 @@ switch ($opcion) {
 			exit();
 		}
 		break;
-	default:
-		$msj = "Sin datos que mostrar.";
-		$mostrar = "mostrar";
-		$boton_mostrar = "Mostrar Clave";
 }
 
 
