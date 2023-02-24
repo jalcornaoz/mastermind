@@ -9,9 +9,11 @@ main {
 }
 .azul {
   background-color: blue;
+  color: white;
 }
 .marron {
   background-color: brown;
+  color: white;
 }
 .naranja {
   background-color: orange;

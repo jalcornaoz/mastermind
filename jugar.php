@@ -2,16 +2,16 @@
 $cargar_clase = fn ($clase) => require_once "./class/$clase.php";
 spl_autoload_register($cargar_clase);
 
-
 session_start();
 
-$_SESSION["intentos"] = $_SESSION["intentos"] ?? 0;
-$msj = "Sin datos que mostrar.";
-$mostrar = "mostrar";
-$boton_mostrar = "Mostrar Clave";
+
 
 
 //inicializar datos
+//$_SESSION["intentos"] = $_SESSION["intentos"] ?? 0;
+$msj = "Sin datos que mostrar.";
+$mostrar = "mostrar";
+$boton_mostrar = "Mostrar Clave";
 $clave = new Clave();
 
 $opcion = $_POST["submit"] ?? "";
@@ -19,7 +19,7 @@ switch ($opcion) {
 	case "mostrar":
 		$mostrar = "ocultar";
 		$boton_mostrar = "Ocultar Clave";
-		$msj = "La clave es: " . $clave->mostrarClave();
+		$msj = "La clave es: " . Plantilla::mostrarClave();
 		break;
 	case "ocultar":
 		$mostrar = "mostrar";
@@ -39,9 +39,9 @@ switch ($opcion) {
 		$combinacion = $_POST["combinacion"];
 		$jugada = new Jugada($combinacion);
 		$_SESSION["jugadas"][] = $jugada;
-		$_SESSION["intentos"]++;
+//		$_SESSION["intentos"]++;
 		$posiciones = $jugada->getPosiciones();
-		$intentos = $_SESSION["intentos"];
+		$intentos = sizeof($_SESSION["jugadas"]);
 
 		if ($posiciones < 4) {
 			if ($intentos < 15) {

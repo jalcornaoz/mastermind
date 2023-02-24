@@ -30,11 +30,5 @@ class Clave
         $this->clave = ["$colores[$n1]", "$colores[$n2]", "$colores[$n3]", "$colores[$n4]"];
     }
 
-    public function mostrarClave()
-    {
-        $clave = "";
-        foreach ($this->clave as $color)
-            $clave .= "<span class=\"$color\">&nbsp$color&nbsp</span>";
-        return $clave;
-    }
 }
+

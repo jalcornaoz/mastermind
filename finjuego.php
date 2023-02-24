@@ -4,14 +4,12 @@ spl_autoload_register($cargar_clase);
 
 session_start();
 
-$clave = new Clave();
 
-$intentos = $_SESSION["intentos"];
 $resultado = $_GET["resultado"];
 if ($resultado)
-    $msj = "Has acertado en $intentos intentos.<br>";
+    $msj = "Has acertado en ".sizeof($_SESSION["jugadas"])." intentos.<br>";
 else
-    $msj = "No has acertado la convinación: " . $clave->mostrarClave() . "<br>";
+    $msj = "No has acertado la convinación: " . Plantilla::mostrarClave() . "<br>";
 $msj .= Plantilla::mostrarJugadas();
 session_destroy();
 
