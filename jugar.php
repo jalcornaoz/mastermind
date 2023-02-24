@@ -49,7 +49,7 @@ switch ($opcion) {
 
 	case "jugar":
 		$combinacion = $_POST["combinacion"];
-		$jugada = new Jugada($combinacion, $clave);
+		$jugada = new Jugada($combinacion);
 		$_SESSION["jugadas"][] = $jugada;
 		$_SESSION["intentos"]++;
 		$posiciones = $jugada->getPosiciones();

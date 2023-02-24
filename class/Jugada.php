@@ -1,4 +1,6 @@
 <?php
+$cargar_clase = fn ($clase) => require_once "./class/$clase.php";
+spl_autoload_register($cargar_clase);
 
 class Jugada
 {
@@ -6,10 +8,11 @@ class Jugada
     private int $posiciones = 0;
     private int $noPosiciones = 0;
 
-    public function __construct($combinacion, $clave)
+    public function __construct($combinacion)
     {
         $this->jugada = $combinacion;
-        $this->comprobarAciertos($clave);
+        $clave =
+            $this->comprobarAciertos($clave);
     }
 
     private function comprobarAciertos($clave)
