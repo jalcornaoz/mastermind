@@ -4,16 +4,13 @@ spl_autoload_register($cargar_clase);
 
 session_start();
 
-
-
-
 //inicializar datos
-//$_SESSION["intentos"] = $_SESSION["intentos"] ?? 0;
 $msj = "Sin datos que mostrar.";
 $mostrar = "mostrar";
 $boton_mostrar = "Mostrar Clave";
 $clave = new Clave();
 
+//$opcion -> botón pulsado
 $opcion = $_POST["submit"] ?? "";
 switch ($opcion) {
 	case "mostrar":
@@ -36,30 +33,27 @@ switch ($opcion) {
 		break;
 
 	case "jugar":
-		$combinacion = $_POST["combinacion"];
+		$combinacion = $_POST["combinacion"]; //combinación selecionada al pulsar [Hacer Jugada]
 		$jugada = new Jugada($combinacion);
-		$_SESSION["jugadas"][] = $jugada;
-//		$_SESSION["intentos"]++;
-		$posiciones = $jugada->getPosiciones();
-		$intentos = sizeof($_SESSION["jugadas"]);
+		$_SESSION["jugadas"][] = $jugada; //jugada guardada en variable de sesión
+		$posiciones = $jugada->getPosiciones(); //colores acertados en su posición
+		$intentos = sizeof($_SESSION["jugadas"]); //intentos es del tamaño de las jugadas guardadas en $_SESSION["jugadas"]
 
 		if ($posiciones < 4) {
 			if ($intentos < 15) {
 				$msj = Plantilla::mostrarJugadas();
 			} else {
-				header("location:./finjuego.php?resultado=0");
+				header("location:./finjuego.php?resultado=0"); //si se ha llegado a la jugada 15
 				exit();
 			}
 		} else {
-			header("location:./finjuego.php?resultado=1");
+			header("location:./finjuego.php?resultado=1"); //si se ha acertado la combinación
 			exit();
 		}
 		break;
 }
 
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -112,7 +106,6 @@ switch ($opcion) {
 									<button type="submit" class="btn btn-primary" name="submit" value="jugar">Hacer Jugada</button>
 								</div>
 							</form>
-
 						</div>
 					</div>
 				</div>

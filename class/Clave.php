@@ -2,7 +2,7 @@
 class Clave
 {
     public const COLORES = ["amarillo", "azul", "marron", "naranja", "rojo", "rosa", "verde", "violeta"];
-    private $clave = [];
+    private array $clave;
 
     public function __construct()
     {

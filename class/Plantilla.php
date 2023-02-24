@@ -17,7 +17,7 @@ class Plantilla
         return $msj_select;
     }
 
-    static function mostrarJugadas()
+    static public function mostrarJugadas()
     {
         $n = 1;
         $msj = "Intento número " . sizeof($_SESSION["jugadas"]) . "<br>";
@@ -31,7 +31,7 @@ class Plantilla
         return $msj;
     }
 
-    static function mostrarClave(){
+    static public function mostrarClave(){
         $msj_clave = "<table class=\"table text-center\"><tr>";
         foreach ($_SESSION["clave"] as $color)
             $msj_clave .= "<td><span class=\"$color\">&nbsp$color&nbsp</span></td>";
