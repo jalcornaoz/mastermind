@@ -11,8 +11,8 @@ class Jugada
     public function __construct($combinacion)
     {
         $this->jugada = $combinacion;
-        $clave =
-            $this->comprobarAciertos($clave);
+        $clave = $_SESSION["clave"];
+        $this->comprobarAciertos($clave);
     }
 
     private function comprobarAciertos($clave)
@@ -36,7 +36,7 @@ class Jugada
         }
     }
 
-    public function mostrartJugada()
+    public function mostrarJugada()
     {
         $msj = "<td><span class=\"posicion\">&nbsp" . $this->posiciones . "&nbsp</span></td>";
         $msj .= "<td><span class=\"noPosicion\">&nbsp" . $this->noPosiciones . "&nbsp</span></td>";

@@ -16,4 +16,18 @@ class Plantilla
         }
         return $select;
     }
+
+    static function mostrarJugadas()
+    {
+        $n = 1;
+        $msj = "Intento número " . $_SESSION["intentos"] . "<br>";
+        $msj .= "Tus Jugadas:<br>";
+        $msj .= "<table class='table'>";
+        foreach ($_SESSION["jugadas"] as $jugada) {
+            $msj .= "<tr><td>$n.-</td>" . $jugada->mostrarJugada() . "</tr>";
+            $n++;
+        }
+        $msj .= "</table>";
+        return $msj;
+    }
 }

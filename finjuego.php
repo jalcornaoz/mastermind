@@ -11,12 +11,8 @@ $resultado = $_GET["resultado"];
 if ($resultado)
     $msj = "Has acertado en $intentos intentos.<br>";
 else
-    $msj = "No has acertado la convinación: " . $clave->getClave() . "<br>";
-/*
-$jugada = new Jugada();
-$msj .= "Tus Jugadas:<br>";
-$msj .= $jugada->getJugada();
-*/
+    $msj = "No has acertado la convinación: " . $clave->mostrarClave() . "<br>";
+$msj .= Plantilla::mostrarJugadas();
 session_destroy();
 
 
@@ -50,7 +46,7 @@ session_destroy();
                 <div class="card-body bg-light">
                     <div class="col-6">
                         <p class="fw-bold"><?= $msj ?></p>
-                        <a href="./index.php" class="btn btn-primary">Volver a jugar</a>
+                        <a href="./index.html" class="btn btn-primary">Volver a jugar</a>
                     </div>
                 </div>
             </div>
