@@ -2,20 +2,54 @@
 
 class Jugada
 {
-    private array $jugadas = [];
-    private int $intentos = 0;
-    private int $noPosiciones = 0;
+    private array $jugada;
     private int $posiciones = 0;
-    private array $acertados = [];
+    private int $noPosiciones = 0;
 
-    public function __construct()
+    public function __construct($clave)
     {
-        if (isset($_SESSION["jugada"])) {
-            $this->jugadas = $_SESSION["jugada"];
-            $this->intentos = $_SESSION["intentos"];
+        $this->jugada = $clave;
+        $this->comprobarAciertos($clave);
+    }
+
+    private function comprobarAciertos($clave)
+    {
+        $array_acertados = [];
+        $this->posiciones = 0;
+        $this->noPosiciones = 0;
+        for ($i = 0; $i < 4; $i++) {
+            if ($clave[$i] == $this->jugada[$i]) {
+                $this->posiciones++;
+                $array_acertados[] = $clave[$i];
+            }
+        }
+        for ($i = 0; $i < 4; $i++) {
+            if ($clave[$i] != $this->jugada[$i] && !in_array($this->jugada[$i], $array_acertados)) {
+                if (in_array($this->jugada[$i], $clave)) {
+                    $this->noPosiciones++;
+                    $array_acertados[] = $clave[$i];
+                }
+            }
         }
     }
 
+    public function mostrartJugada()
+    {
+        $msj = "<td><span class=\"posicion\">&nbsp" . $this->posiciones . "&nbsp</span></td>";
+        $msj .= "<td><span class=\"noPosicion\">&nbsp" . $this->noPosiciones . "&nbsp</span></td>";
+        foreach ($this->jugada as $color) {
+            $msj .= "<td><span class=\"$color\">&nbsp$color&nbsp</span></td>";
+        }
+        return $msj;
+    }
+
+
+    public function getPosiciones()
+    {
+        return $this->posiciones;
+    }
+}
+/*
     public function setJugada($combinacion)
     {
         $this->jugadas[] = $combinacion;
@@ -23,56 +57,4 @@ class Jugada
         $_SESSION["jugada"] = $this->jugadas;
         $_SESSION["intentos"] = $this->intentos;
     }
-
-    public function getJugada()
-    {
-        $msj = "<table class=\"table\">";
-        $n = 1;
-        foreach ($this->jugadas as $jugada) {
-            $msj .= "<tr><td>$n.-</td>";
-            $msj .= "<td><span class=\"posicion\">&nbsp" . $this->getPosiciones($jugada) . "&nbsp</span></td>";
-            $msj .= "<td><span class=\"noPosicion\">&nbsp" . $this->getNoPosiciones($jugada) . "&nbsp</span></td>";
-            foreach ($jugada as $color) {
-                $msj .= "<td><span class=\"$color\">&nbsp$color&nbsp</span></td>";
-            }
-            $msj .= "</tr>";
-            $n++;
-        }
-        $msj .= "</table>";
-        return $msj;
-    }
-
-    public function getPosiciones($combinacion)
-    {
-        $clave = $_SESSION["clave"];
-        $this->acertados = [];
-        $this->posiciones = 0;
-        for ($i = 0; $i < 4; $i++) {
-            if ($combinacion[$i] == $clave[$i]) {
-                $this->posiciones++;
-                $this->acertados[] = $clave[$i];
-            }
-        }
-        return $this->posiciones;
-    }
-
-    private function getNoPosiciones($combinacion)
-    {
-        $clave = $_SESSION["clave"];
-        $this->noPosiciones = 0;
-        for ($i = 0; $i < 4; $i++) {
-            if ($clave[$i] != $combinacion[$i] && !in_array($combinacion[$i], $this->acertados)) {
-                if (in_array($combinacion[$i], $clave)) {
-                    $this->noPosiciones++;
-                    $this->acertados[] = $combinacion[$i];
-                }
-            }
-        }
-        return $this->noPosiciones;
-    }
-
-    public function getIntentos()
-    {
-        return $this->intentos;
-    }
-}
+*/
